@@ -6,9 +6,11 @@
 
 		<title>Call of Cthulhu</title>
 
+		<!-- Stylesheets -->
 		<link rel="stylesheet" type="text/css" href="../assets/css/main.css" />
 		<link rel="stylesheet" type="text/css" href="../assets/css/coc.css" />
 
+		<!-- JS -->
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -22,10 +24,16 @@
 				} else {
 					$("div#gen").height( $("div#charsheet").height() );
 				}
+
+				$("#GENERATORS").height($("div#gen").height() - 24);
 			}
 
 			window.addEventListener('resize', resize());
 		</script>
+
+		<!-- Lists (JS) -->
+		<script src="../assets/js/names.js"></script>
+
 	</head>
 
 	<body onload="resize();">
@@ -45,19 +53,19 @@
 					<div id="right">
 						<table>
 							<tr>
-								<td><p v-on:click="setStats('str')">STR: {{ getStats("STR") }}</p></td>
-								<td><p v-on:click="setStats('dex')">DEX: {{ getStats("DEX") }}</p></td>
-								<td><p v-on:click="setStats('int')">INT: {{ characteristics.int }}</p></td>
+								<td><p v-on:click="setStats('str')" v-on:mouseover="tt('STR')" v-on:mouseout="tt('clear')">STR: {{ getStats("STR") }}</p></td>
+								<td><p v-on:click="setStats('dex')" v-on:mouseover="tt('DEX')" v-on:mouseout="tt('clear')">DEX: {{ getStats("DEX") }}</p></td>
+								<td><p v-on:click="setStats('int')" v-on:mouseover="tt('INT')" v-on:mouseout="tt('clear')">INT: {{ characteristics.int }}</p></td>
 							</tr>
 							<tr>
-								<td><p v-on:click="setStats('con')">CON: {{ getStats("CON") }}</p></td>
-								<td><p v-on:click="setStats('app')">APP: {{ getStats("APP") }}</p></td>
-								<td><p v-on:click="setStats('pow')">POW: {{ characteristics.pow }}</p></td>
+								<td><p v-on:click="setStats('con')" v-on:mouseover="tt('CON')" v-on:mouseout="tt('clear')">CON: {{ getStats("CON") }}</p></td>
+								<td><p v-on:click="setStats('app')" v-on:mouseover="tt('APP')" v-on:mouseout="tt('clear')">APP: {{ getStats("APP") }}</p></td>
+								<td><p v-on:click="setStats('pow')" v-on:mouseover="tt('POW')" v-on:mouseout="tt('clear')">POW: {{ characteristics.pow }}</p></td>
 							</tr>
 							<tr>
-								<td><p v-on:click="setStats('siz')">SIZ: {{ getStats("SIZ") }}</p></td>
-								<td><p v-on:click="setStats('edu')">EDU: {{ getStats("EDU") }}</p></td>
-								<td><p v-on:click="setStats('moverate')">MOV: {{ getStats("MOV") }}</p></td>
+								<td><p v-on:click="setStats('siz')" v-on:mouseover="tt('SIZ')" v-on:mouseout="tt('clear')">SIZ: {{ getStats("SIZ") }}</p></td>
+								<td><p v-on:click="setStats('edu')" v-on:mouseover="tt('EDU')" v-on:mouseout="tt('clear')">EDU: {{ getStats("EDU") }}</p></td>
+								<td><p v-on:click="setStats('moverate')" v-on:mouseover="tt('moverate')" v-on:mouseout="tt('clear')">MOV: {{ getStats("MOV") }}</p></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -76,12 +84,12 @@
 				<div id="characteristics2">
 					<table>
 						<tr>
-							<td><p v-on:click="setStats('hp')">Max HP: {{ getStats("HP") }}</p></td>
-							<td><p v-on:click="setStats('sanity')">Starting Sanity: {{ getStats("SAN") }}</p></td>
+							<td><p v-on:click="setStats('hp')" v-on:mouseover="tt('HP')" v-on:mouseout="tt('clear')">Max HP: {{ getStats("HP") }}</p></td>
+							<td><p v-on:click="setStats('sanity')" v-on:mouseover="tt('SAN')" v-on:mouseout="tt('clear')">Starting Sanity: {{ getStats("SAN") }}</p></td>
 						</tr>
 						<tr>
-							<td><p v-on:click="setStats('luck')">Luck: {{ characteristics.luck }}</p></td>
-							<td><p v-on:click="setStats('mp')">Max MP: {{ getStats("MP") }}</p></td>
+							<td><p v-on:click="setStats('luck')" v-on:mouseover="tt('luck')" v-on:mouseout="tt('clear')">Luck: {{ characteristics.luck }}</p></td>
+							<td><p v-on:click="setStats('mp')" v-on:mouseover="tt('MP')" v-on:mouseout="tt('clear')">Max MP: {{ getStats("MP") }}</p></td>
 						</tr>
 					</table>
 				</div>
@@ -91,8 +99,15 @@
 				<div id="possesions"></div>
 			</div>
 			<div id="gen">
-				<p v-on:click="generateName('male')">Generate male name</p>
-				<p v-on:click="genStats('characteristics');">Generate characteristics</p>
+				<div id="GENERATORS">
+					<table><tr>
+						<td style="padding-right: 2em;"><p v-on:click="generateName('male')">Generate male name</p></td>
+						<td><p v-on:click="generateName('female')">Generate female name</p></td>
+					</tr></table>
+					<p v-on:click="genStats('characteristics');">Generate characteristics</p>
+				</div>
+
+				<p class="tooltip">{{ settings.tooltip }}</p>
 			</div>
 		</div>
 

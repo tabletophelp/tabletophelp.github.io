@@ -2,7 +2,8 @@ var app = new Vue({
 	el: '#chargen',
 	data: {
 		settings: {
-			ageMod: true
+			ageMod: true,
+			tooltip: ""
 		},
 		info: {
 			name: "",
@@ -364,13 +365,58 @@ var app = new Vue({
 			}*/
 		},
 		generateName: function(sex) {
-			$.get("../assets/lists/forenames.json", function(data) {
-				console.log("Data: " + data);
-			})
+			var forename = "";
 			if (sex == "male") {
-				console.log("Male");
+				forename = forenames.male[Math.floor(Math.random()*forenames.male.length)];
 			} else {
+				forename = forenames.female[Math.floor(Math.random()*forenames.female.length)];
+			}
 
+			var surname = surnames[Math.floor(Math.random()*surnames.length)];
+			this.info.name = forename.concat(" ").concat(surname);
+		},
+		tt: function(type) {
+			if (type == "clear") {
+				this.settings.tooltip = "";
+			}
+			else if (type == "STR") {
+				this.settings.tooltip = "To generate STR, roll 3d6 and times it by 5.";
+			} 
+			else if (type == "DEX") {
+				this.settings.tooltip = "To generate DEX, roll 3d6 and times it by 5.";
+			}  
+			else if (type == "INT") {
+				this.settings.tooltip = "To generate INT, roll 2d6+6 and times it by 5.";
+			}  
+			else if (type == "CON") {
+				this.settings.tooltip = "To generate CON, roll 3d6 and times it by 5.";
+			}  
+			else if (type == "APP") {
+				this.settings.tooltip = "To generate APP, roll 3d6 and times it by 5.";
+			}  
+			else if (type == "POW") {
+				this.settings.tooltip = "To generate POW, roll 3d6 and times it by 5.";
+			}  
+			else if (type == "SIZ") {
+				this.settings.tooltip = "To generate SIZ, roll 2d6+6 and times it by 5.";
+			}  
+			else if (type == "EDU") {
+				this.settings.tooltip = "To generate EDU, roll 2d6+6 and times it by 5.";
+			}  
+			else if (type == "moverate") {
+				this.settings.tooltip = "If both DEX and STR are bigger than SIZ, 9. If only one is, 8. Else 7.";
+			}
+			else if (type == "HP") {
+				this.settings.tooltip = "(CON + SIZ)/10.";
+			}
+			else if (type == "SAN") {
+				this.settings.tooltip = "Starts at POW.";
+			}
+			else if (type == "luck") {
+				this.settings.tooltip = "To generate POW, roll 3d6 and times it by 5.";
+			}
+			else if (type == "MP") {
+				this.settings.tooltip = "1/5th of POW.";
 			}
 		}
 	}
