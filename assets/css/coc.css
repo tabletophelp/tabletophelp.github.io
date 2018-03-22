@@ -1,0 +1,53 @@
+div#charsheet {
+	background-color: #fff;
+	width: 500px;
+	border: 1px solid #D4CFCF;
+	border-radius: 4px;
+	padding: 4px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+div#chargen p, div#chargen h3 {
+	margin: 0px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div#chargen p:hover {
+	color: #4C4C4C;
+}
+
+div#charsheet div#characteristics div#left, div#charsheet div#characteristics div#right {
+	display: inline-block;
+	vertical-align: top;
+	width: 49%;
+}
+
+div#charsheet div#characteristics div#right table {
+	float: right;
+}
+div#charsheet div#characteristics div#right td {
+	width: 82px;
+	text-align: center;
+}
+
+div#characteristics2 table td {
+	width: 250px;
+	vertical-align: top;
+} div#characteristics2  table td:nth-child(2) p {
+	text-align: right;
+}
+
+div#gen {
+	background-color: #fff;
+	border: 1px solid #D4CFCF;
+	border-radius: 4px;
+	padding: 4px;
+	display: inline-block;
+	vertical-align: top;
+}

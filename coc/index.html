@@ -1,0 +1,105 @@
+<!DOCTYPE hml>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Call of Cthulhu</title>
+
+		<link rel="stylesheet" type="text/css" href="../assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../assets/css/coc.css" />
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			function resize() {
+				bodyWidth = document.body.clientWidth - 16;
+				$("div#gen").width(bodyWidth - 524);
+
+				if ( $("div#charsheet").height() < $("div#gen").height() ) {
+					$("div#charsheet").height( $("div#gen").height() );
+				} else {
+					$("div#gen").height( $("div#charsheet").height() );
+				}
+			}
+
+			window.addEventListener('resize', resize());
+		</script>
+	</head>
+
+	<body onload="resize();">
+
+		<div id="chargen">
+			<div id="charsheet">
+				<div id="characteristics">
+					<div id="left">
+						<p v-on:click="setStats('name')">Name: {{ info.name }}</p>
+						<p v-on:click="setStats('player')">Player: {{ info.player }}</p>
+						<p v-on:click="setStats('occupation')">Occupation: {{ info.occupation }}</p>
+						<p v-on:click="setStats('age')">Age: {{ info.age }}</p>
+						<p v-on:click="setStats('sex')">Sex: {{ info.sex }}</p>
+						<p v-on:click="setStats('residence')">Residence: {{ info.residence }}</p>
+						<p v-on:click="setStats('birthplace')">Birthplace: {{ info.birthplace }}</p>
+					</div>
+					<div id="right">
+						<table>
+							<tr>
+								<td><p v-on:click="setStats('str')">STR: {{ getStats("STR") }}</p></td>
+								<td><p v-on:click="setStats('dex')">DEX: {{ getStats("DEX") }}</p></td>
+								<td><p v-on:click="setStats('int')">INT: {{ characteristics.int }}</p></td>
+							</tr>
+							<tr>
+								<td><p v-on:click="setStats('con')">CON: {{ getStats("CON") }}</p></td>
+								<td><p v-on:click="setStats('app')">APP: {{ getStats("APP") }}</p></td>
+								<td><p v-on:click="setStats('pow')">POW: {{ characteristics.pow }}</p></td>
+							</tr>
+							<tr>
+								<td><p v-on:click="setStats('siz')">SIZ: {{ getStats("SIZ") }}</p></td>
+								<td><p v-on:click="setStats('edu')">EDU: {{ getStats("EDU") }}</p></td>
+								<td><p v-on:click="setStats('moverate')">MOV: {{ getStats("MOV") }}</p></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<input type="checkbox" id="checkbox" v-model="settings.ageMod" />
+									<label for="checkbox">Age modifiers</label>
+								</td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<br />
+
+				<div id="characteristics2">
+					<table>
+						<tr>
+							<td><p v-on:click="setStats('hp')">Max HP: {{ getStats("HP") }}</p></td>
+							<td><p v-on:click="setStats('sanity')">Starting Sanity: {{ getStats("SAN") }}</p></td>
+						</tr>
+						<tr>
+							<td><p v-on:click="setStats('luck')">Luck: {{ characteristics.luck }}</p></td>
+							<td><p v-on:click="setStats('mp')">Max MP: {{ getStats("MP") }}</p></td>
+						</tr>
+					</table>
+				</div>
+				<div id="skills"></div>
+				<div id="combat"></div>
+				<div id="story"></div>
+				<div id="possesions"></div>
+			</div>
+			<div id="gen">
+				<p v-on:click="generateName('male')">Generate male name</p>
+				<p v-on:click="genStats('characteristics');">Generate characteristics</p>
+			</div>
+		</div>
+
+
+
+		<script src="../assets/js/coc.js"></script>
+
+	</body>
+
+</html>
