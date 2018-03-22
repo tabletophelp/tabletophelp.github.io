@@ -2,7 +2,7 @@ var app = new Vue({
 	el: '#chargen',
 	data: {
 		settings: {
-			ageMod: true,
+			ageMod: false,
 			tooltip: ""
 		},
 		info: {
@@ -57,6 +57,8 @@ var app = new Vue({
 					console.log("Data: " + data);
 				})
 			}
+
+			this.updateSkills();
 		},
 		getStats: function(stat) {
 			if (stat == "STR") {
@@ -298,7 +300,70 @@ var app = new Vue({
 			else if (stat == "SAN") {
 				return this.characteristics.pow;
 			}
-			
+
+			else if (stat == "DB") {
+				if ((this.getStats("STR") + this.getStats("SIZ")) >= 2 && (this.getStats("STR") + this.getStats("SIZ")) <= 64) {
+					return "-2";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 65 && (this.getStats("STR") + this.getStats("SIZ")) <= 84) {
+					return "-1";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 85 && (this.getStats("STR") + this.getStats("SIZ")) <= 123) {
+					return "None";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 125 && (this.getStats("STR") + this.getStats("SIZ")) <= 164) {
+					return "+1D4";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 165 && (this.getStats("STR") + this.getStats("SIZ")) <= 204) {
+					return "+1D6";
+				}
+			}
+			else if (stat == "build") {
+				if ((this.getStats("STR") + this.getStats("SIZ")) >= 2 && (this.getStats("STR") + this.getStats("SIZ")) <= 64) {
+					return "-2";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 65 && (this.getStats("STR") + this.getStats("SIZ")) <= 84) {
+					return "-1";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 85 && (this.getStats("STR") + this.getStats("SIZ")) <= 123) {
+					return "0";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 125 && (this.getStats("STR") + this.getStats("SIZ")) <= 164) {
+					return "+1";
+				}
+				else if ((this.getStats("STR") + this.getStats("SIZ")) >= 165 && (this.getStats("STR") + this.getStats("SIZ")) <= 204) {
+					return "+2";
+				}
+			}
+			else if (stat == "dodge") {
+				var dodge = Number(this.getStats("DEX"))/2;
+				if (dodge % 1 != 0) {
+					dodge = Math.floor(dodge);
+				}
+				return dodge;
+			}
+
+			else if (stat == "OSP") {
+				occupation = occupations[this.info.occupation.toLowerCase()];
+
+				if (occupation == undefined) {
+					return "x";
+				}
+
+				OSP = 0;
+				for (i = 0; i < occupation.OSP.length; i++) {
+					OSP += Number(this.getStats(occupation.OSP[i][0])) * occupation.OSP[i][1];
+				}
+
+				return OSP;
+			}
+			else if (stat == "PSP") {
+				var PSP = Number(this.characteristics.int)*2;
+				if (PSP % 1 != 0) {
+					PSP = Math.floor(PSP);
+				}
+				return PSP;
+			}
 		},
 		setStats: function(stat) {
 			if (stat == "name") {
@@ -363,6 +428,8 @@ var app = new Vue({
 			/*else if (stat == "mp") {
 				this.characteristics.mp = prompt("What would you like the character's max MP to be set to?", this.characteristics.mp);
 			}*/
+
+			this.updateSkills();
 		},
 		generateName: function(sex) {
 			var forename = "";
@@ -376,6 +443,7 @@ var app = new Vue({
 			this.info.name = forename.concat(" ").concat(surname);
 		},
 		tt: function(type) {
+
 			if (type == "clear") {
 				this.settings.tooltip = "";
 			}
@@ -406,6 +474,7 @@ var app = new Vue({
 			else if (type == "moverate") {
 				this.settings.tooltip = "If both DEX and STR are bigger than SIZ, 9. If only one is, 8. Else 7.";
 			}
+
 			else if (type == "HP") {
 				this.settings.tooltip = "(CON + SIZ)/10.";
 			}
@@ -413,11 +482,32 @@ var app = new Vue({
 				this.settings.tooltip = "Starts at POW.";
 			}
 			else if (type == "luck") {
-				this.settings.tooltip = "To generate POW, roll 3d6 and times it by 5.";
+				this.settings.tooltip = "To generate luck, roll 2d6+6 and times it by 5.";
 			}
 			else if (type == "MP") {
 				this.settings.tooltip = "1/5th of POW.";
 			}
+
+			else if (type == "DB") {
+				this.settings.tooltip = "\"for each +80 points or fraction thereof, +1D6 DB and +1 Build\". See a book for more info.";
+			}
+			else if (type == "build") {
+				this.settings.tooltip = "\"for each +80 points or fraction thereof, +1D6 DB and +1 Build\". See a book for more info.";
+			}
+			else if (type == "dodge") {
+				this.settings.tooltip = "1/2th of DEX.";
+			}
+
+			resize();
+		},
+		updateSkills: function() {
+			occupation = occupations[this.info.occupation.toLowerCase()];
+			ret = "<ul>";
+			for (i = 0; i < occupation.skills.length; i++) {
+				ret = ret.concat("<li><p>").concat(occupation.skills[i]).concat("</p></li>");
+			}
+			ret = ret.concat("</ul>");
+			$("#skilllist").html(ret);
 		}
 	}
 });

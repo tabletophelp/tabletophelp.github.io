@@ -1,4 +1,4 @@
-<!DOCTYPE hml>
+<!DOCTYPE html>
 <html>
 
 	<head>
@@ -25,7 +25,7 @@
 					$("div#gen").height( $("div#charsheet").height() );
 				}
 
-				$("#GENERATORS").height($("div#gen").height() - 24);
+				$("#GENERATORS").height($("div#gen").height() - $("p.tooltip").height());
 			}
 
 			window.addEventListener('resize', resize());
@@ -33,6 +33,7 @@
 
 		<!-- Lists (JS) -->
 		<script src="../assets/js/names.js"></script>
+		<script src="../assets/js/occupations.js"></script>
 
 	</head>
 
@@ -93,8 +94,20 @@
 						</tr>
 					</table>
 				</div>
-				<div id="skills"></div>
-				<div id="combat"></div>
+				<br />
+				<div id="skills">
+					<p>You have {{ getStats("OSP") }} occupational skillpoints and {{ getStats("PSP") }} personal ones.</p>
+					<p>Occupational skills:</p>
+					<div id="skilllist"></div>
+				</div>
+				<br />
+				<div id="combat">
+					<table><tr>
+						<td><p v-on:mouseover="tt('DB')" v-on:mouseout="tt('clear')">DB: {{ getStats("DB") }}</p></td>
+						<td><p v-on:mouseover="tt('build')" v-on:mouseout="tt('clear')">Build: {{ getStats("build") }}</p></td>
+						<td><p v-on:mouseover="tt('dodge')" v-on:mouseout="tt('clear')">Dodge: {{ getStats("dodge") }}</p></td>
+					</tr></table>
+				</div>
 				<div id="story"></div>
 				<div id="possesions"></div>
 			</div>

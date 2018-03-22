@@ -43,6 +43,10 @@ div#characteristics2 table td {
 	text-align: right;
 }
 
+div#combat td {
+	width: 30%;
+}
+
 div#gen {
 	background-color: #fff;
 	border: 1px solid #D4CFCF;
